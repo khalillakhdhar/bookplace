@@ -69,6 +69,24 @@ final CategorieRepository categorieRepository;
 		
 		return null;
 	}
+
+	@Override
+	public List<Livre> searchByDescriptionContent(String description) {
+		// TODO Auto-generated method stub
+		return livreRepository.findByDescriptionContaining(description);
+	}
+
+	@Override
+	public List<Livre> searchByTitre(String titre) {
+		// TODO Auto-generated method stub
+		return livreRepository.findByTitre(titre);
+	}
+
+	@Override
+	public List<Livre> searchTop3() {
+		// TODO Auto-generated method stub
+		return livreRepository.findFirst3ByOrderByPrixDesc();
+	}
 /*
 	@Override
 	public Livre assignLivreTocategorie(long idLivre, String categorie) {

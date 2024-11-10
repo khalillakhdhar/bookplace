@@ -16,8 +16,11 @@ public class AuteurServiceimpl implements AuteurService {
 	
 	
 	@Override
-	public List<Auteur> getAllAuteur() {
-		// TODO Auto-generated method stub
+	public List<Auteur> getAllAuteur(String nom,String prenom,String domaine) {
+		if(!nom.equals(null)|| !prenom.equals(null)|| !domaine.equals(null))
+			return auteurRepository.findByNomOrPrenomOrDomaine(nom, prenom, domaine);
+		
+		
 		return auteurRepository.findAll();
 	}
 
@@ -38,5 +41,13 @@ public class AuteurServiceimpl implements AuteurService {
 		// TODO Auto-generated method stub
 		auteurRepository.deleteById(id);
 		
+	}
+
+
+
+	@Override
+	public Auteur findByEmail(String email) {
+		// TODO Auto-generated method stub
+		return this.auteurRepository.findByEmail(email);
 	}
 }

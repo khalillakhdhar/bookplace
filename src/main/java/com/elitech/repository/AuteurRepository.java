@@ -8,6 +8,6 @@ import com.elitech.model.entities.Auteur;
 
 public interface AuteurRepository extends JpaRepository<Auteur, Long> {
 List<Auteur> findByNomOrPrenomOrDomaine(String nom,String prenom,String domaine);
-List<Auteur> findByEmail(String email);
+Auteur findByEmail(String email);
 
 }

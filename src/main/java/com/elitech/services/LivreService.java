@@ -11,5 +11,9 @@ public interface LivreService {
 	public Optional<Livre> findOneLivre(long id);
 	public void deleteOneLivre(long id);
 	public Livre assignLivreToAuteur(long idLivre,long idAuteur);
-	//public Livre assignLivreTocategorie(long idLivre, String categorie);
+
+	public List<Livre> searchByDescriptionContent(String description);
+	public List<Livre> searchByTitre(String titre);
+	public List<Livre> searchTop3();
+
 }

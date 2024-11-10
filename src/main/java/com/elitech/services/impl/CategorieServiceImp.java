@@ -41,4 +41,10 @@ public class CategorieServiceImp implements CategorieService {
 		categorieRepository.deleteById(id);
 	}
 
+	@Override
+	public Categorie findByNom(String categorie) {
+		// TODO Auto-generated method stub
+		return categorieRepository.findByCategorie(categorie).orElse(null);
+	}
+
 }

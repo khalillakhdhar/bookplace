@@ -10,4 +10,5 @@ public interface CategorieService {
 	public Categorie AddOneCategorie(Categorie categorie);
 	public Optional<Categorie> findOneCategorie(long id);
 	public void deleteOneCategorie(long id);
+	public Categorie findByNom(String categorie);
 }
