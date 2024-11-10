@@ -3,6 +3,7 @@ package com.elitech.model.entities;
 import java.util.List;
 
 import com.elitech.model.AuditModel;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -30,6 +31,7 @@ public class Auteur extends AuditModel{
 	@Column(nullable = false)
 	private String domaine;
 	@OneToMany(mappedBy = "auteur")
+	@JsonIgnoreProperties("auteur")
 	private List<Livre> livres;
 	
 

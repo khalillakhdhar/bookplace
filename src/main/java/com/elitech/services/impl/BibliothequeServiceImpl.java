@@ -7,15 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.elitech.model.entities.Bibliotheque;
+import com.elitech.model.entities.Livre;
 import com.elitech.repository.BibliothequeRepository;
+import com.elitech.repository.LivreRepository;
 import com.elitech.services.BibliothequeService;
+
+import lombok.RequiredArgsConstructor;
 
 
 @Service
-
+@RequiredArgsConstructor
 public class BibliothequeServiceImpl implements BibliothequeService{
-	@Autowired
-	 BibliothequeRepository bibliothequeRepository;
+	
+	final BibliothequeRepository bibliothequeRepository;
+	final LivreRepository livreRepository;
 	
 	
 	@Override
@@ -41,6 +46,32 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 		// TODO Auto-generated method stub
 		bibliothequeRepository.deleteById(id);
 		
+	}
+
+	@Override
+	public Bibliotheque assignLivre(long idBiblio, long idLivre) {
+		// TODO Auto-generated method stub
+		if(bibliothequeRepository.existsById(idBiblio)&&livreRepository.existsById(idLivre))
+		{
+			Bibliotheque biblio=bibliothequeRepository.findById(idBiblio).get();
+			Livre livre=livreRepository.findById(idLivre).get();
+			List<Livre> lv=biblio.getLivres();
+			lv.add(livre);
+			biblio.setLivres(lv);
+			bibliothequeRepository.save(biblio);
+		}
+		
+		
+		return null;
+	}
+
+	@Override
+	public List<Bibliotheque> searchByLieuOrNom(String lieu, String nom) {
+		// TODO Auto-generated method stub
+		if(lieu.equals("")&&nom.equals(""))
+		return bibliothequeRepository.findAll();
+		else
+			return bibliothequeRepository.findByLieuOrNom(lieu, nom);
 	}
 
 }
