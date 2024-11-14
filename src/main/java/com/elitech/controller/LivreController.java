@@ -32,10 +32,12 @@ return livreService.getAllLivre();
 }
 @PostMapping
 public Livre addOneLivre(@RequestBody @Valid Livre livre,@RequestParam(required = false) String categorie)
+// localhost:8080/livre?categorie=""
 {
 return livreService.AddOneLivre(livre, categorie);	
 }
-@GetMapping("/{id}")
+@GetMapping("/{id}") 
+//localhost:8080/livre/valeurid/...
 public ResponseEntity<Livre> getOneBook(@PathVariable long id)
 {
 Optional<Livre> livre=livreService.findOneLivre(id);
@@ -48,6 +50,13 @@ return 	ResponseEntity.status(HttpStatus.NOT_FOUND).build();
 
 
 }
+@GetMapping("/desc/{description}")
+public List<Livre> getLivresParDescriptionLike(@PathVariable String description)
+{
+return livreService.searchByDescriptionContent(description);	
+}
+
+
 @DeleteMapping("/{id}")
 public void deleteOneLivre(@PathVariable long id)
 {
