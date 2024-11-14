@@ -17,7 +17,7 @@ public class AuteurServiceimpl implements AuteurService {
 	
 	@Override
 	public List<Auteur> getAllAuteur(String nom,String prenom,String domaine) {
-		if(!nom.equals(null)|| !prenom.equals(null)|| !domaine.equals(null))
+		if(!nom.equals("")|| !prenom.equals("")|| !domaine.equals(""))
 			return auteurRepository.findByNomOrPrenomOrDomaine(nom, prenom, domaine);
 		
 		

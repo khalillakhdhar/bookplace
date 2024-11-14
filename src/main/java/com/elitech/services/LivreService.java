@@ -8,7 +8,7 @@ import com.elitech.model.entities.Livre;
 public interface LivreService {
 	
 	public List<Livre> getAllLivre();
-	public Livre AddOneLivre(Livre livre,String categorie);
+	public Livre AddOneLivre(Livre livre,long categorieId);
 	public Optional<Livre> findOneLivre(long id);
 	public void deleteOneLivre(long id);
 	public Livre assignLivreToAuteur(long idLivre,long idAuteur);

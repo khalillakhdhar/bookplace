@@ -30,10 +30,10 @@ final CategorieRepository categorieRepository;
 	}
 
 	@Override
-	public Livre AddOneLivre(Livre livre,String categorie) {
-		if(categorieRepository.findByCategorie(categorie)!=null)
+	public Livre  AddOneLivre(Livre livre,long categorieId) {
+		if(categorieRepository.existsById(categorieId))
 		{
-			Categorie cat=categorieRepository.findByCategorie(categorie).orElse(null);
+			Categorie cat=categorieRepository.findById(categorieId).orElse(null);
 			livre.setCategorie(cat);
 		}
 		// TODO Auto-generated method stub

@@ -59,6 +59,9 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 			lv.add(livre);
 			biblio.setLivres(lv);
 			bibliothequeRepository.save(biblio);
+			livre.getBibliotheques().add(biblio);
+			livreRepository.save(livre);
+			return biblio;
 		}
 		
 		
