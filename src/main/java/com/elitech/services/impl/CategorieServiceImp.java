@@ -1,12 +1,15 @@
 package com.elitech.services.impl;
 
-import java.util.List;
-import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.elitech.model.dto.CategorieDto;
 import com.elitech.model.entities.Categorie;
+import com.elitech.model.mappers.CategorieMapper;
 import com.elitech.repository.CategorieRepository;
 import com.elitech.services.CategorieService;
 
@@ -18,21 +21,30 @@ public class CategorieServiceImp implements CategorieService {
 	 CategorieRepository categorieRepository;
 	
 	@Override
-	public List<Categorie> getAllCategorie() {
+	public Page<CategorieDto> getAllCategorie(Pageable page) {
 		// TODO Auto-generated method stub
-		return categorieRepository.findAll();
+		Page<Categorie> categories= categorieRepository.findAll(page);
+		return categories.map(CategorieMapper::convertToDTO);
 	}
 
 	@Override
-	public Categorie AddOneCategorie(Categorie categorie) {
+	public CategorieDto AddOneCategorie(CategorieDto categorie) {
 		// TODO Auto-generated method stub
-		return categorieRepository.save(categorie);
+		Categorie cat =CategorieMapper.convertToEntity(categorie);
+		
+		 Categorie saved= categorieRepository.save(cat);
+		 return CategorieMapper.convertToDTO(saved);
 	}
 
 	@Override
-	public Optional<Categorie> findOneCategorie(long id) {
+	public CategorieDto findOneCategorie(long id) {
 		// TODO Auto-generated method stub
-		return categorieRepository.findById(id);
+		if(categorieRepository.existsById(id))
+		{
+			CategorieMapper.convertToDTO(categorieRepository.findById(id).get());
+			
+		}
+		return null;
 	}
 
 	@Override
@@ -42,9 +54,9 @@ public class CategorieServiceImp implements CategorieService {
 	}
 
 	@Override
-	public Categorie findByNom(String categorie) {
+	public CategorieDto findByNom(String categorie) {
 		// TODO Auto-generated method stub
-		return categorieRepository.findByCategorie(categorie).orElse(null);
+		return CategorieMapper.convertToDTO(categorieRepository.findByCategorie(categorie).orElse(null));
 	}
 
 }
