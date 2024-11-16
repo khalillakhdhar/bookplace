@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.elitech.model.entities.Categorie;
 import com.elitech.services.CategorieService;
-import com.elitech.services.LivreService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
