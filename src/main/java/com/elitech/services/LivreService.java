@@ -1,20 +1,22 @@
 package com.elitech.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.elitech.model.entities.Livre;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.elitech.model.dto.LivreDto;
 
 public interface LivreService {
 	
-	public List<Livre> getAllLivre();
-	public Livre AddOneLivre(Livre livre,long categorieId);
-	public Optional<Livre> findOneLivre(long id);
+	public Page<LivreDto> getAllLivre(Pageable pageable);
+	public LivreDto AddOneLivre(LivreDto livre,long categorieId);
+	public LivreDto findOneLivre(long id);
 	public void deleteOneLivre(long id);
-	public Livre assignLivreToAuteur(long idLivre,long idAuteur);
+	public LivreDto assignLivreToAuteur(long idLivre,long idAuteur);
 
-	public List<Livre> searchByDescriptionContent(String description);
-	public List<Livre> searchByTitre(String titre);
-	public List<Livre> searchTop3();
+	public Page<LivreDto> searchByDescriptionContent(String description,Pageable pageable);
+	public Page<LivreDto> searchByTitre(String titre,Pageable pageable);
+	public List<LivreDto> searchTop3();
 
 }

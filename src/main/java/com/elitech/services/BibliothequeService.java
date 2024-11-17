@@ -1,16 +1,18 @@
 package com.elitech.services;
 
-import java.util.List;
-import java.util.Optional;
 
-import com.elitech.model.entities.Bibliotheque;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.elitech.model.dto.BibliothequeDto;
 
 public interface BibliothequeService {
-	public List<Bibliotheque> getAllBibliotheque();
-	public Bibliotheque AddOneBibliotheque(Bibliotheque bibliotheque);
-	public Optional<Bibliotheque> findOneBibliotheque(long id);
+	public Page<BibliothequeDto> getAllBibliotheque(Pageable pageable);
+	public BibliothequeDto AddOneBibliotheque(BibliothequeDto bibliotheque);
+	public BibliothequeDto findOneBibliotheque(long id);
 	public void deleteOneBibliotheque(long id);
-	public Bibliotheque assignLivre(long idBiblio,long idLivre);
+	public BibliothequeDto assignLivre(long idBiblio,long idLivre);
 	//List<Bibliotheque> findByLieuOrNom(String lieu,String nom);
-	public List<Bibliotheque> searchByLieuOrNom(String lieu,String nom);
+	public Page<BibliothequeDto> searchByLieuOrNom(String lieu,String nom,Pageable pageable);
 }

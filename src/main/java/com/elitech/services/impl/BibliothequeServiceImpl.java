@@ -1,13 +1,16 @@
 package com.elitech.services.impl;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.elitech.model.dto.BibliothequeDto;
 import com.elitech.model.entities.Bibliotheque;
 import com.elitech.model.entities.Livre;
+import com.elitech.model.mappers.BibliothequeMapper;
 import com.elitech.repository.BibliothequeRepository;
 import com.elitech.repository.LivreRepository;
 import com.elitech.services.BibliothequeService;
@@ -24,21 +27,22 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 	
 	
 	@Override
-	public List<Bibliotheque> getAllBibliotheque() {
+	public Page<BibliothequeDto> getAllBibliotheque(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return bibliothequeRepository.findAll();
+		return bibliothequeRepository.findAll(pageable).map(BibliothequeMapper::convertToDTO);
 	}
 
 	@Override
-	public Bibliotheque AddOneBibliotheque(Bibliotheque bibliotheque) {
+	public BibliothequeDto AddOneBibliotheque(BibliothequeDto bibliotheque) {
 		// TODO Auto-generated method stub
-		return bibliothequeRepository.save(bibliotheque);
+		
+		return BibliothequeMapper.convertToDTO(bibliothequeRepository.save(BibliothequeMapper.convertToEntity(bibliotheque)));
 	}
 
 	@Override
-	public Optional<Bibliotheque> findOneBibliotheque(long id) {
+	public BibliothequeDto findOneBibliotheque(long id) {
 		// TODO Auto-generated method stub
-		return bibliothequeRepository.findById(id);
+		return BibliothequeMapper.convertToDTO(bibliothequeRepository.findById(id).orElse(null));
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 	}
 
 	@Override
-	public Bibliotheque assignLivre(long idBiblio, long idLivre) {
+	public BibliothequeDto assignLivre(long idBiblio, long idLivre) {
 		// TODO Auto-generated method stub
 		if(bibliothequeRepository.existsById(idBiblio)&&livreRepository.existsById(idLivre))
 		{
@@ -61,7 +65,7 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 			bibliothequeRepository.save(biblio);
 			livre.getBibliotheques().add(biblio);
 			livreRepository.save(livre);
-			return biblio;
+			return BibliothequeMapper.convertToDTO(biblio);
 		}
 		
 		
@@ -69,12 +73,12 @@ public class BibliothequeServiceImpl implements BibliothequeService{
 	}
 
 	@Override
-	public List<Bibliotheque> searchByLieuOrNom(String lieu, String nom) {
+	public Page<BibliothequeDto> searchByLieuOrNom(String lieu, String nom,Pageable pageable) {
 		// TODO Auto-generated method stub
 		if(lieu.equals("")&&nom.equals(""))
-		return bibliothequeRepository.findAll();
+		return bibliothequeRepository.findAll(pageable).map(BibliothequeMapper::convertToDTO);
 		else
-			return bibliothequeRepository.findByLieuOrNom(lieu, nom);
+			return bibliothequeRepository.findByLieuOrNom(lieu, nom,pageable).map(BibliothequeMapper::convertToDTO);
 	}
 
 }

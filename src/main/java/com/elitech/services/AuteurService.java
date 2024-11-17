@@ -1,15 +1,16 @@
 package com.elitech.services;
 
-import java.util.List;
-import java.util.Optional;
 
-import com.elitech.model.entities.Auteur;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
+import com.elitech.model.dto.AuteurDto;
 
 public interface AuteurService {
-	public List<Auteur> getAllAuteur(String nom,String prenom,String domaine);
-	public Auteur AddOneAuteur(Auteur auteur);
-	public Optional<Auteur> findOneAuteur(long id);
+	public Page<AuteurDto> getAllAuteur(String nom,String prenom,String domaine,Pageable pageable);
+	public AuteurDto AddOneAuteur(AuteurDto auteur);
+	public AuteurDto findOneAuteur(long id);
 	public void deleteOneAuteur(long id);
-	public Auteur findByEmail(String email);
+	public AuteurDto findByEmail(String email);
 
 }

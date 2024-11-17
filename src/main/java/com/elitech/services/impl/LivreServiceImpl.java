@@ -1,13 +1,17 @@
 package com.elitech.services.impl;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import com.elitech.model.dto.LivreDto;
 import com.elitech.model.entities.Auteur;
 import com.elitech.model.entities.Categorie;
 import com.elitech.model.entities.Livre;
+import com.elitech.model.mappers.LivreMapper;
 import com.elitech.repository.AuteurRepository;
 import com.elitech.repository.CategorieRepository;
 import com.elitech.repository.LivreRepository;
@@ -24,26 +28,29 @@ final CategorieRepository categorieRepository;
 	
 	
 	@Override
-	public List<Livre> getAllLivre() {
+	public Page<LivreDto> getAllLivre(Pageable pageable) {
 		// TODO Auto-generated method stub
-		return livreRepository.findAll();
+		return livreRepository.findAll(pageable).map(LivreMapper::convertToDTO);
 	}
 
 	@Override
-	public Livre  AddOneLivre(Livre livre,long categorieId) {
+	public LivreDto  AddOneLivre(LivreDto livre,long categorieId) {
+		Livre lv=LivreMapper.convertToEntity(livre);
+
 		if(categorieRepository.existsById(categorieId))
 		{
 			Categorie cat=categorieRepository.findById(categorieId).orElse(null);
-			livre.setCategorie(cat);
+			lv.setCategorie(cat);
+			return LivreMapper.convertToDTO(livreRepository.save(lv));
 		}
 		// TODO Auto-generated method stub
-		return livreRepository.save(livre);
+		return LivreMapper.convertToDTO(livreRepository.save(lv));
 	}
 
 	@Override
-	public Optional<Livre> findOneLivre(long id) {
+	public LivreDto findOneLivre(long id) {
 		// TODO Auto-generated method stub
-		return livreRepository.findById(id);
+		return LivreMapper.convertToDTO(livreRepository.findById(id).orElse(null));
 	}
 
 	@Override
@@ -53,7 +60,7 @@ final CategorieRepository categorieRepository;
 	}
 
 	@Override
-	public Livre assignLivreToAuteur(long idLivre, long idAuteur) {
+	public LivreDto assignLivreToAuteur(long idLivre, long idAuteur) {
 		// TODO Auto-generated method stub
 		if(livreRepository.existsById(idLivre)&& auteurRepository.existsById(idAuteur))
 		{
@@ -63,7 +70,7 @@ final CategorieRepository categorieRepository;
 			Auteur auteur=auteurRepository.findById(idAuteur).get();
 			currentlivre.setAuteur(auteur); // id=3 livre auteur <= null aprés auteur => currentAuteur
 			
-			livreRepository.save(currentlivre);
+			return LivreMapper.convertToDTO(livreRepository.save(currentlivre));
 		}
 		
 		
@@ -71,21 +78,25 @@ final CategorieRepository categorieRepository;
 	}
 
 	@Override
-	public List<Livre> searchByDescriptionContent(String description) {
+	public Page<LivreDto> searchByDescriptionContent(String description,Pageable pageable) {
 		// TODO Auto-generated method stub
-		return livreRepository.findByDescriptionContaining(description);
+		return livreRepository.findByDescriptionContaining(description,pageable).map(LivreMapper::convertToDTO);
 	}
 
 	@Override
-	public List<Livre> searchByTitre(String titre) {
+	public Page<LivreDto> searchByTitre(String titre,Pageable pageable) {
 		// TODO Auto-generated method stub
-		return livreRepository.findByTitre(titre);
+		return livreRepository.findByTitre(titre,pageable).map(LivreMapper::convertToDTO);
 	}
 
 	@Override
-	public List<Livre> searchTop3() {
+	public List<LivreDto> searchTop3() {
 		// TODO Auto-generated method stub
-		return livreRepository.findFirst3ByOrderByPrixDesc();
+	List<LivreDto> livres=new ArrayList<LivreDto>();
+		livreRepository.findFirst3ByOrderByPrixDesc().forEach(lv->{
+			livres.add(LivreMapper.convertToDTO(lv));
+		});
+		return livres;
 	}
 /*
 	@Override
