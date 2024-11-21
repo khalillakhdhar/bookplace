@@ -1,9 +1,6 @@
 package com.elitech.services.impl;
 
-import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -13,10 +10,13 @@ import com.elitech.model.entities.Auteur;
 import com.elitech.model.mappers.AuteurMapper;
 import com.elitech.repository.AuteurRepository;
 import com.elitech.services.AuteurService;
+
+import lombok.RequiredArgsConstructor;
 @Service
+@RequiredArgsConstructor
 public class AuteurServiceimpl implements AuteurService {
-	@Autowired
-	 AuteurRepository auteurRepository;
+	
+	final AuteurRepository auteurRepository;
 	
 	
 	@Override
