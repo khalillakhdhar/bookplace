@@ -1,6 +1,5 @@
 package com.elitech.controller;
 
-import java.util.List;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.elitech.model.dto.CategorieDto;
-import com.elitech.model.entities.Categorie;
 import com.elitech.services.CategorieService;
 
 import jakarta.validation.Valid;
