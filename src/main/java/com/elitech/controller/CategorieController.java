@@ -2,6 +2,8 @@ package com.elitech.controller;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.elitech.model.dto.CategorieDto;
 import com.elitech.model.entities.Categorie;
 import com.elitech.services.CategorieService;
 
@@ -22,13 +25,13 @@ import lombok.RequiredArgsConstructor;
 public class CategorieController {
 final CategorieService categorieService;
 @GetMapping
-public List<Categorie> getAllCategories()
+public Page<CategorieDto> getAllCategories(Pageable pageable)
 {
-return categorieService.getAllCategorie();
+return categorieService.getAllCategorie(pageable);
 
 }
 @PostMapping
-public Categorie addOneCategorie(@RequestBody @Valid Categorie categorie)
+public CategorieDto addOneCategorie(@RequestBody @Valid CategorieDto categorie)
 {
 return categorieService.AddOneCategorie(categorie);	
 }
@@ -38,13 +41,13 @@ public void deleteMapping(@PathVariable long id)
 categorieService.deleteOneCategorie(id);	
 }
 @GetMapping("/{id}")
-public Categorie getOne(@PathVariable long id)
+public CategorieDto getOne(@PathVariable long id)
 {
-return categorieService.findOneCategorie(id).orElse(null);
+return categorieService.findOneCategorie(id);
 
 }
 @GetMapping("/nom/{nom}")
-public Categorie getByNom(@PathVariable String nom)
+public CategorieDto getByNom(@PathVariable String nom)
 {
 return categorieService.findByNom(nom);	
 }
